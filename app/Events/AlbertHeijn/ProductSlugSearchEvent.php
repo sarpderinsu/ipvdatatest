@@ -2,7 +2,7 @@
 
 namespace App\Events\AlbertHeijn;
 
-class TaxonomySlugSearchEvent
+class ProductSlugSearchEvent
 {
     public string $taxonomySlug;
     public int $size;

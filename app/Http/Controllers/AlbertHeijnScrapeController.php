@@ -2,29 +2,36 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\AlbertHeijn\ProductSlugSearchEvent;
+use App\Events\AlbertHeijn\TaxonomyNameSearchEvent;
+use App\Http\Requests\AlbertHeijn\ProductSlugSearchRequest;
 use App\Http\Requests\AlbertHeijn\TaxonomyNameSearchRequest;
-use GuzzleHttp\Client;
-use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Contracts\Events\Dispatcher;
-use Illuminate\Support\Facades\Redis;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Response;
 
 class AlbertHeijnScrapeController extends Controller
 {
-    public function nameSearch(Client $guzzle, TaxonomyNameSearchRequest $request)
+    public function nameSearch(TaxonomyNameSearchRequest $request, Dispatcher $dispatcher): JsonResponse
     {
-//        $result = $guzzle->request('GET', 'https://www.ah.nl/zoeken/api/products/search?taxonomySlug=pils&size=1000');
-        $result = $guzzle->request('GET', 'https://www.ah.nl/zoeken/api/taxonomy?name=bier');
+        $event = new TaxonomyNameSearchEvent(
+            name: $request->input('name', 'bier'),
+        );
 
-        $body = $result->getBody();
+        $result = $dispatcher->dispatch($event, halt: true);
 
-        $json = json_decode((string) $body);
+        return response()->json($result);
+    }
 
-////        foreach ($json->cards as $card) {
-////            dump($card->products[0]);
-////        }
-//
-//        dd($json);
+    public function taxonomySlugSearch(ProductSlugSearchRequest $request, Dispatcher $dispatcher): Response
+    {
+        $event = new ProductSlugSearchEvent(
+            taxonomySlug: $request->input('taxonomySlug', 'bier'),
+            size: $request->input('size', 5)
+        );
 
-        return response()->json($json);
+        $dispatcher->dispatch($event);
+
+        return new Response(null);
     }
 }

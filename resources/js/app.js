@@ -1,9 +1,9 @@
 import 'bootstrap';
-import {createApp, provide, h} from "vue";
+import {createApp, h} from "vue";
 import { createVuetify } from 'vuetify';
 import App from './App.vue';
 import axios from 'axios';
-import { DefaultApolloClient } from '@vue/apollo-composable';
+import {provideApolloClient} from '@vue/apollo-composable';
 import {ApolloClient, createHttpLink, InMemoryCache} from "@apollo/client/core";
 
 window.axios = axios;
@@ -33,7 +33,7 @@ const apolloClient = new ApolloClient({
 
 const app = createApp({
     setup () {
-        provide(DefaultApolloClient, apolloClient)
+        provideApolloClient(apolloClient)
     },
     render: () => h(App),
 });
