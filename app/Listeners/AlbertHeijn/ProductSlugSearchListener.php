@@ -4,7 +4,6 @@ namespace App\Listeners\AlbertHeijn;
 
 use App\Events\AlbertHeijn\ProductSlugSearchedEvent;
 use App\Events\AlbertHeijn\ProductSlugSearchEvent;
-use App\Events\AlbertHeijn\TaxonomyNameSearchedEvent;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Contracts\Events\Dispatcher;
