@@ -4,7 +4,6 @@ namespace App\Listeners\AlbertHeijn;
 
 use App\Commands\AlbertHeijn\ProductTaxonomy\AttachTaxonomyToProductCommand;
 use App\Events\AlbertHeijn\AttachTaxonomiesToProductEvent;
-use App\Pipes\ProductTaxonomyNotExistsPipe;
 use Illuminate\Contracts\Bus\Dispatcher;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
@@ -25,7 +24,7 @@ class AttachTaxonomiesToProductJob implements ShouldQueue
                 taxonomyId: $taxonomyId
             );
 
-            $this->dispatcher->pipeThrough([ProductTaxonomyNotExistsPipe::class])->dispatch($command);
+            $this->dispatcher->dispatch($command);
         }
     }
 }

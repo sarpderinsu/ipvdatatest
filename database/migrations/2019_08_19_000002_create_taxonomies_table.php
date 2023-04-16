@@ -12,7 +12,7 @@ return new class extends Migration
             $table->unsignedBigInteger('id')->primary();
             $table->string('name');
             $table->string('slugified_name')->nullable();
-            $table->string('image')->nullable();
+            $table->boolean('fetched')->default(false);
             $table->timestamps();
         });
     }

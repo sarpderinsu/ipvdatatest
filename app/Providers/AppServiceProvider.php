@@ -8,8 +8,9 @@ use App\Commands\AlbertHeijn\ProductTaxonomy\AttachTaxonomyToProductCommand;
 use App\Commands\AlbertHeijn\ProductTaxonomy\AttachTaxonomyToProductCommandHandler;
 use App\Commands\AlbertHeijn\Taxonomy\CreateTaxonomyCommand;
 use App\Commands\AlbertHeijn\Taxonomy\CreateTaxonomyCommandHandler;
+use App\Commands\AlbertHeijn\Taxonomy\UpdateTaxonomyFetchedCommand;
+use App\Commands\AlbertHeijn\Taxonomy\UpdateTaxonomyFetchedCommandHandler;
 use Illuminate\Contracts\Bus\Dispatcher;
-use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -24,6 +25,7 @@ class AppServiceProvider extends ServiceProvider
         $dispatcher->map([
             CreateProductCommand::class => CreateProductCommandHandler::class,
             CreateTaxonomyCommand::class => CreateTaxonomyCommandHandler::class,
+            UpdateTaxonomyFetchedCommand::class => UpdateTaxonomyFetchedCommandHandler::class,
             AttachTaxonomyToProductCommand::class => AttachTaxonomyToProductCommandHandler::class
         ]);
     }

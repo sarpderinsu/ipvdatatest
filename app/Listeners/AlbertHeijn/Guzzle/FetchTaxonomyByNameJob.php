@@ -6,17 +6,17 @@ use App\Events\AlbertHeijn\Guzzle\FetchedTaxonomyItemsEvent;
 use App\Events\AlbertHeijn\TaxonomyNameSearchEvent;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
-use Illuminate\Contracts\Events\Dispatcher;
+use Illuminate\Contracts\Events\Dispatcher as EventDispatcher;
 
 class FetchTaxonomyByNameJob
 {
     private Client $guzzle;
-    private Dispatcher $dispatcher;
+    private EventDispatcher $eventDispatcher;
 
-    public function __construct(Client $client, Dispatcher $dispatcher)
+    public function __construct(Client $client, EventDispatcher $eventDispatcher)
     {
         $this->guzzle = $client;
-        $this->dispatcher = $dispatcher;
+        $this->eventDispatcher = $eventDispatcher;
     }
 
     /**
@@ -35,7 +35,7 @@ class FetchTaxonomyByNameJob
         foreach (array_chunk($items, 10) as $chunkedItems) {
             $event = new FetchedTaxonomyItemsEvent(items: $chunkedItems);
 
-            $this->dispatcher->dispatch($event);
+            $this->eventDispatcher->dispatch($event);
         }
 
         return $items;

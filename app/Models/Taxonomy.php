@@ -11,8 +11,6 @@ class Taxonomy extends Model
         'id',
         'name',
         'slugified_name',
-        'image',
-        'active'
     ];
 
     public function products(): BelongsToMany

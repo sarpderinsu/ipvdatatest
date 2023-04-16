@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class ProductTaxonomy extends Model
 {
+    public $table = 'product_taxonomy';
+
     protected $fillable = [
         'product_id',
         'taxonomy_id'

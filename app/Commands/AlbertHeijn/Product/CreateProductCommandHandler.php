@@ -3,7 +3,6 @@
 namespace App\Commands\AlbertHeijn\Product;
 
 use App\Models\Product;
-use Illuminate\Database\QueryException;
 
 class CreateProductCommandHandler
 {
@@ -16,6 +15,10 @@ class CreateProductCommandHandler
 
     public function handle(CreateProductCommand $command): void
     {
+        if ($this->product->newQuery()->where('id', $command->id)->exists()) {
+            return;
+        }
+
         $this->product->fill([
             'id' => $command->id,
             'title' => $command->title,

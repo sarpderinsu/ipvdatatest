@@ -5,8 +5,6 @@ namespace App\Listeners\AlbertHeijn;
 use App\Commands\AlbertHeijn\Product\CreateProductCommand;
 use App\Events\AlbertHeijn\AttachTaxonomiesToProductEvent;
 use App\Events\AlbertHeijn\Guzzle\FetchedProductItemsEvent;
-use App\Events\AlbertHeijn\Guzzle\FetchedTaxonomyItemsEvent;
-use App\Pipes\ProductNotExistsPipe;
 use Illuminate\Contracts\Bus\Dispatcher as BusDispatcher;
 use Illuminate\Contracts\Events\Dispatcher as EventDispatcher;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -35,16 +33,13 @@ class CreateProductsJob implements ShouldQueue
                 price: (array) $item->price,
                 discount: (array) ($item->discount ?? null)
             );
-            $fetchedTaxonomyItemsEvent = new FetchedTaxonomyItemsEvent(
-                items: $item->taxonomies
-            );
+
             $attachTaxonomiesToProductEvent = new AttachTaxonomiesToProductEvent(
                 productId: $item->id,
                 taxonomyIds: collect($item->taxonomies)->pluck('id')->toArray()
             );
 
-            $this->busDispatcher->pipeThrough([ProductNotExistsPipe::class])->dispatch($createProductCommand);
-            $this->eventDispatcher->dispatch($fetchedTaxonomyItemsEvent);
+            $this->busDispatcher->dispatch($createProductCommand);
             $this->eventDispatcher->dispatch($attachTaxonomiesToProductEvent);
         }
     }

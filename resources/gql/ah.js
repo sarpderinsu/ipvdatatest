@@ -3,40 +3,27 @@ import gql from 'graphql-tag'
 const productsQuery = gql`
     query Products {
         products {
-            data {
-                id
-                title
-                link
-                image
-                brand
-                category
-                price
-                discount
-                created_at
-                updated_at
-            }
-            paginatorInfo {
-                count
-                currentPage
-                lastPage
-            }
+            id
+            title
+            link
+            image
+            brand
+            category
+            price
+            discount
+            created_at
+            updated_at
         }
     }`
 
-const taxonomiesQuery = gql`
-    query Taxonomies {
-        taxonomies {
-            data {
-                id
-                name
-                created_at
-                updated_at
-            }
-            paginatorInfo {
-                count
-                currentPage
-                lastPage
-            }
+const fetchedTaxonomiesQuery = gql`
+    query FetchedTaxonomies {
+        taxonomies (fetched: true) {
+            id
+            name
+            slugified_name
+            created_at
+            updated_at
         }
     }`
 
@@ -120,5 +107,5 @@ export {
     productQuery,
     productsQuery,
     taxonomyQuery,
-    taxonomiesQuery
+    fetchedTaxonomiesQuery
 }

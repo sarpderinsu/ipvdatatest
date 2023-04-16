@@ -4,7 +4,6 @@ namespace App\Listeners\AlbertHeijn;
 
 use App\Commands\AlbertHeijn\Taxonomy\CreateTaxonomyCommand;
 use App\Events\AlbertHeijn\Guzzle\FetchedTaxonomyItemsEvent;
-use App\Pipes\TaxonomyNotExistsPipe;
 use Illuminate\Contracts\Bus\Dispatcher;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
@@ -23,9 +22,10 @@ class CreateTaxonomiesJob implements ShouldQueue
             $command = new CreateTaxonomyCommand(
                 id: $item->id,
                 name: $item->name,
+                slugifiedName: $item->slugifiedName
             );
 
-            $this->dispatcher->pipeThrough([TaxonomyNotExistsPipe::class])->dispatch($command);
+            $this->dispatcher->dispatch($command);
         }
     }
 }

@@ -3,6 +3,7 @@ import {createApp, h} from "vue";
 import { createVuetify } from 'vuetify';
 import App from './App.vue';
 import axios from 'axios';
+import router from "./router";
 import {provideApolloClient} from '@vue/apollo-composable';
 import {ApolloClient, createHttpLink, InMemoryCache} from "@apollo/client/core";
 
@@ -39,5 +40,6 @@ const app = createApp({
 });
 const vuetify = createVuetify();
 
+app.use(router)
 app.use(vuetify)
 app.mount('#app');
