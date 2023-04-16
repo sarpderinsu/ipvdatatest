@@ -1,16 +1,20 @@
 <template>
     <div>
         <v-table>
-            <thead class="mt-2">
+            <thead>
             <tr>
                 <th class="text-left">
                     Title
+                </th>
+                <th class="text-left">
+                    Image
                 </th>
             </tr>
             </thead>
             <tbody>
             <tr v-for="item in products" :key="item.id">
                 <td>{{ item.title }}</td>
+                <td><v-img :src="item.image"></v-img></td>
             </tr>
             </tbody>
         </v-table>
@@ -27,13 +31,10 @@ export default {
     setup() {
         const route = useRoute()
 
-        const { result } = useQuery(taxonomyQuery, {id: route.params.id})
+        const variables = computed(() => ({id: route.params.id}));
+        const { result } = useQuery(taxonomyQuery, variables)
 
         const products = computed(() => result.value?.taxonomy?.products ?? [])
-
-        watch(() => {
-            console.log(result.value)
-        })
 
         return {
             products
