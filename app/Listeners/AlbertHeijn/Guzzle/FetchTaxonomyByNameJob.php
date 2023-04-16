@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Listeners\AlbertHeijn;
+namespace App\Listeners\AlbertHeijn\Guzzle;
 
-use App\Events\AlbertHeijn\TaxonomyNameSearchedEvent;
+use App\Events\AlbertHeijn\Guzzle\FetchedTaxonomyItemsEvent;
 use App\Events\AlbertHeijn\TaxonomyNameSearchEvent;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Contracts\Events\Dispatcher;
 
-class TaxonomyNameSearchListener
+class FetchTaxonomyByNameJob
 {
     private Client $guzzle;
     private Dispatcher $dispatcher;
@@ -33,7 +33,7 @@ class TaxonomyNameSearchListener
         $items = json_decode((string) $body);
 
         foreach (array_chunk($items, 10) as $chunkedItems) {
-            $event = new TaxonomyNameSearchedEvent(items: $chunkedItems);
+            $event = new FetchedTaxonomyItemsEvent(items: $chunkedItems);
 
             $this->dispatcher->dispatch($event);
         }

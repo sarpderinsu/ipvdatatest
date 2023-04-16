@@ -3,16 +3,20 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Taxonomy extends Model
 {
-    protected $table = 'taxonomies';
-
     protected $fillable = [
         'id',
         'name',
-        'slugifiedName',
+        'slugified_name',
         'image',
         'active'
     ];
+
+    public function products(): BelongsToMany
+    {
+        return $this->belongsToMany(Product::class);
+    }
 }

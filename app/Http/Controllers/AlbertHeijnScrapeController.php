@@ -15,7 +15,7 @@ class AlbertHeijnScrapeController extends Controller
     public function nameSearch(TaxonomyNameSearchRequest $request, Dispatcher $dispatcher): JsonResponse
     {
         $event = new TaxonomyNameSearchEvent(
-            name: $request->input('name', 'bier'),
+            name: $request->input('name'),
         );
 
         $result = $dispatcher->dispatch($event, halt: true);
@@ -26,8 +26,8 @@ class AlbertHeijnScrapeController extends Controller
     public function taxonomySlugSearch(ProductSlugSearchRequest $request, Dispatcher $dispatcher): Response
     {
         $event = new ProductSlugSearchEvent(
-            taxonomySlug: $request->input('taxonomySlug', 'bier'),
-            size: $request->input('size', 5)
+            taxonomySlug: $request->input('taxonomySlug'),
+            size: 1000
         );
 
         $dispatcher->dispatch($event);

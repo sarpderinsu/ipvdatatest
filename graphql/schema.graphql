@@ -2,20 +2,51 @@ scalar DateTime @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\Date
 
 type Query {
     product(id: ID @eq @rules(apply: ["exists:id"])): Product @find
-    products(taxonomy_id: String @where): [Product!]! @paginate(defaultCount: 10)
+    products: [Product!]! @paginate(defaultCount: 15)
     taxonomy(id: ID @eq @rules(apply: ["exists:id"])): Taxonomy @find
-    taxonomies: [Taxonomy!]! @paginate(defaultCount: 10)
+    taxonomies: [Taxonomy!]! @paginate(defaultCount: 15)
 }
 
 type Taxonomy {
     id: ID!
-    slug: String!
+    name: String!
+    products: [Product!]! @belongsToMany
     created_at: DateTime!
     updated_at: DateTime!
 }
 
 type Product {
     id: ID!
+    title: String!
+    link: String!
+    image: String!
+    brand: String!
+    category: String!
+    price: Price!
+    discount: Discount
+    taxonomies: [Taxonomy!]! @belongsToMany
     created_at: DateTime!
     updated_at: DateTime!
+}
+
+type Price {
+    unitInfo: PriceUnitInfo!
+    now: Int!
+    unitSize: String!
+    theme: String
+    was: Int
+}
+
+type PriceUnitInfo {
+    price: Int!
+    description: String!
+}
+
+type Discount {
+    bonusType: String
+    segmentType: String
+    promotionType: String!
+    theme: String
+    startDate: String
+    endDate: String
 }

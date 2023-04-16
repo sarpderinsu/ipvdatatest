@@ -23,7 +23,7 @@ class Product extends Model
         'discount' => 'array',
     ];
 
-    public function taxonomy(): BelongsToMany
+    public function taxonomies(): BelongsToMany
     {
         return $this->belongsToMany(Taxonomy::class);
     }

@@ -1,14 +1,15 @@
 <?php
 
-namespace App\Listeners\AlbertHeijn;
+namespace App\Listeners\AlbertHeijn\Guzzle;
 
-use App\Events\AlbertHeijn\ProductSlugSearchedEvent;
+use App\Events\AlbertHeijn\Guzzle\FetchedProductItemsEvent;
 use App\Events\AlbertHeijn\ProductSlugSearchEvent;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Contracts\Events\Dispatcher;
+use Illuminate\Contracts\Queue\ShouldQueue;
 
-class ProductSlugSearchListener
+class FetchProductsByTaxonomySlugJob implements ShouldQueue
 {
     private Client $guzzle;
     private Dispatcher $dispatcher;
@@ -35,7 +36,7 @@ class ProductSlugSearchListener
         foreach (array_chunk($items->cards, 10) as $chunkedItems) {
             $items = array_map(fn($item) => array_shift($item->products), $chunkedItems);
 
-            $event = new ProductSlugSearchedEvent(items: $items);
+            $event = new FetchedProductItemsEvent(items: $items);
 
             $this->dispatcher->dispatch($event);
         }

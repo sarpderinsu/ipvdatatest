@@ -3,10 +3,12 @@
 namespace App\Listeners\AlbertHeijn;
 
 use App\Commands\AlbertHeijn\Taxonomy\CreateTaxonomyCommand;
-use App\Events\AlbertHeijn\TaxonomyNameSearchedEvent;
+use App\Events\AlbertHeijn\Guzzle\FetchedTaxonomyItemsEvent;
+use App\Pipes\TaxonomyNotExistsPipe;
 use Illuminate\Contracts\Bus\Dispatcher;
+use Illuminate\Contracts\Queue\ShouldQueue;
 
-class CreateTaxonomiesByNameSearchJob
+class CreateTaxonomiesJob implements ShouldQueue
 {
     private Dispatcher $dispatcher;
 
@@ -15,18 +17,15 @@ class CreateTaxonomiesByNameSearchJob
         $this->dispatcher = $dispatcher;
     }
 
-    public function handle(TaxonomyNameSearchedEvent $event): void
+    public function handle(FetchedTaxonomyItemsEvent $event): void
     {
         foreach ($event->items as $item) {
             $command = new CreateTaxonomyCommand(
                 id: $item->id,
                 name: $item->name,
-                slugifiedName: $item->slugifiedName,
-                image: $item->image,
-                active: $item->active
             );
 
-            $this->dispatcher->dispatch($command);
+            $this->dispatcher->pipeThrough([TaxonomyNotExistsPipe::class])->dispatch($command);
         }
     }
 }

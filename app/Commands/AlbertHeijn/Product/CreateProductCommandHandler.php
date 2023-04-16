@@ -27,10 +27,6 @@ class CreateProductCommandHandler
             'discount' => $command->discount
         ]);
 
-        try {
-            $this->product->save();
-        } catch (QueryException $e) {
-            //
-        }
+        $this->product->save();
     }
 }

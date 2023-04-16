@@ -2,7 +2,9 @@
 
 namespace App\Commands\AlbertHeijn\Product;
 
-class CreateProductCommand
+use Illuminate\Contracts\Queue\ShouldQueue;
+
+class CreateProductCommand implements ShouldQueue
 {
     public int $id;
     public string $title;

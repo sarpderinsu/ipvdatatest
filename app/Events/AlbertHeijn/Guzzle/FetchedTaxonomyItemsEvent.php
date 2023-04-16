@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Events\AlbertHeijn;
+namespace App\Events\AlbertHeijn\Guzzle;
 
-class ProductSlugSearchedEvent
+class FetchedTaxonomyItemsEvent
 {
     public array $items;
 

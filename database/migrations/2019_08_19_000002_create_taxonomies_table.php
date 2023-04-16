@@ -11,9 +11,8 @@ return new class extends Migration
         Schema::create('taxonomies', function (Blueprint $table) {
             $table->unsignedBigInteger('id')->primary();
             $table->string('name');
-            $table->string('slugifiedName');
-            $table->string('image');
-            $table->boolean('active');
+            $table->string('slugified_name')->nullable();
+            $table->string('image')->nullable();
             $table->timestamps();
         });
     }

@@ -9,8 +9,7 @@ class ProductSlugSearchRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'taxonomySlug' => 'string',
-            'size' => 'integer|max:1000',
+            'taxonomySlug' => 'required|string',
         ];
     }
 }
