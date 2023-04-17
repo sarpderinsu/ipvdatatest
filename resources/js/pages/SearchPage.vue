@@ -110,6 +110,7 @@ export default {
                 taxonomySlug: slugifiedName,
             }).then((response) => {
                 this.fetched.push(slugifiedName)
+                this.$emit('fetched-slug', slugifiedName)
             })
         },
     }

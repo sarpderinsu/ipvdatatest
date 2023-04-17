@@ -54,9 +54,5 @@ class FetchProductsByTaxonomySlugJob implements ShouldQueue
 
             $this->eventDispatcher->dispatch($fetchedProductItemsEvent);
         }
-
-        $command = new UpdateTaxonomyFetchedCommand(slugifiedName: $event->taxonomySlug);
-
-        $this->busDispatcher->dispatch($command);
     }
 }

@@ -2,9 +2,7 @@
 
 namespace App\Commands\AlbertHeijn\Taxonomy;
 
-use Illuminate\Contracts\Queue\ShouldQueue;
-
-class UpdateTaxonomyFetchedCommand implements ShouldQueue
+class UpdateTaxonomyFetchedCommand
 {
     public string $slugifiedName;
 

@@ -19,7 +19,7 @@
                 </v-list>
             </v-navigation-drawer>
             <v-main>
-                <router-view></router-view>
+                <router-view @fetched-slug="fetchMore({})"></router-view>
             </v-main>
         </v-layout>
     </v-container>
@@ -35,13 +35,14 @@ export default {
     setup() {
         const router = useRouter()
 
-        const {result} = useQuery(fetchedTaxonomiesQuery)
+        const {result, fetchMore} = useQuery(fetchedTaxonomiesQuery)
 
         const fetchedTaxonomies = computed(() => result.value?.taxonomies ?? [])
 
         return {
             router,
-            fetchedTaxonomies
+            fetchedTaxonomies,
+            fetchMore
         }
     },
 }
