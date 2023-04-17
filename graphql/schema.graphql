@@ -21,11 +21,11 @@ type Product {
     id: ID!
     title: String!
     link: String!
-    image: String!
     brand: String!
     category: String!
     price: Price!
     discount: Discount
+    image: String
     taxonomies: [Taxonomy!]! @belongsToMany
     created_at: DateTime!
     updated_at: DateTime!

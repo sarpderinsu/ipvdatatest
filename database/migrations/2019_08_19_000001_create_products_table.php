@@ -12,10 +12,10 @@ return new class extends Migration
             $table->unsignedBigInteger('id')->primary();
             $table->string('title');
             $table->string('link');
-            $table->string('image');
             $table->string('brand');
             $table->string('category');
             $table->json('price');
+            $table->string('image')->nullable();
             $table->json('discount')->nullable();
             $table->timestamps();
         });

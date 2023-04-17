@@ -32,7 +32,10 @@
             <tbody>
             <tr v-for="item in products" :key="item.id">
                 <td>{{ item.title }}</td>
-                <td><v-img :src="item.image"></v-img></td>
+                <td>
+                    <v-img v-if="item.image" :src="item.image"></v-img>
+                    <div v-else>n/a</div>
+                </td>
                 <td><v-btn color="blue" :href="'https://ah.nl/' + item.link">ah.nl</v-btn></td>
                 <td>{{ item.brand }}</td>
                 <td>{{ item.category }}</td>

@@ -27,10 +27,10 @@ class CreateProductsJob implements ShouldQueue
                 id: $item->id,
                 title: $item->title,
                 link: $item->link,
-                image: array_shift($item->images)->url,
                 brand: $item->brand,
                 category: $item->category,
                 price: (array) $item->price,
+                image: array_shift($item->images)?->url,
                 discount: (array) ($item->discount ?? null)
             );
 

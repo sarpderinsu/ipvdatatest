@@ -27,7 +27,6 @@ class AlbertHeijnScrapeController extends Controller
     {
         $event = new ProductSlugSearchEvent(
             taxonomySlug: $request->input('taxonomySlug'),
-            size: 1000
         );
 
         $dispatcher->dispatch($event);

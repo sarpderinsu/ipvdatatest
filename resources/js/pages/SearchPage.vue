@@ -27,7 +27,7 @@
             <tbody>
             <tr v-for="item in taxonomies" :key="item.id">
                 <td>{{ item.name }}</td>
-                <td>{{ item.totalProductCount }}</td>
+                <td>{{ item.totalResults }}</td>
                 <td>
                     <v-img :src="item.image"></v-img>
                 </td>

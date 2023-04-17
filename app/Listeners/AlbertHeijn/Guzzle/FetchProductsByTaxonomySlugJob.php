@@ -31,13 +31,23 @@ class FetchProductsByTaxonomySlugJob implements ShouldQueue
     {
         $result = $this->guzzle->request(
             'GET',
-            "https://www.ah.nl/zoeken/api/products/search?taxonomySlug=$event->taxonomySlug&size=$event->size"
+            "https://www.ah.nl/zoeken/api/products/search?taxonomySlug=$event->taxonomySlug&size=$event->size&page=$event->page"
         );
 
         $body = $result->getBody();
-        $items = json_decode((string) $body);
+        $fetched = json_decode((string) $body);
 
-        foreach (array_chunk($items->cards, 10) as $chunkedItems) {
+        if (($event->page + 1) < $fetched->page->totalPages) {
+            $productSlugSearchEvent = new ProductSlugSearchEvent(
+                taxonomySlug: $event->taxonomySlug,
+                size: $event->size,
+                page: ($event->page + 1),
+            );
+
+            $this->eventDispatcher->dispatch($productSlugSearchEvent);
+        }
+
+        foreach (array_chunk($fetched->cards, 10) as $chunkedItems) {
             $items = array_map(fn($item) => array_shift($item->products), $chunkedItems);
 
             $fetchedProductItemsEvent = new FetchedProductItemsEvent(items: $items);
