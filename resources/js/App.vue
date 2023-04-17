@@ -5,7 +5,7 @@
                 <v-list nav>
                     <v-list-item
                         :active="router.currentRoute.value.name === 'search'"
-                        title="<< Fetch More"
+                        title="<< Search More"
                         @click="router.push({name: 'search'})"
                     ></v-list-item>
                     <v-divider></v-divider>

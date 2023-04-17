@@ -1,5 +1,17 @@
 <template>
     <v-container :class="loading ? 'text-center' : ''">
+        <v-btn
+            :loading="loading"
+            variant="elevated"
+            rounder="sm"
+            block
+            :disabled="loading"
+            color="indigo"
+            @click="!fetchMore({})">Fetch More
+            <template v-slot:loader>
+                <v-progress-linear indeterminate></v-progress-linear>
+            </template>
+        </v-btn>
         <v-progress-circular v-if="loading"
                              color="blue"
                              indeterminate
@@ -87,13 +99,14 @@ export default {
         const route = useRoute()
 
         const variables = computed(() => ({id: route.params.id}));
-        const {result, loading} = useQuery(taxonomyQuery, variables)
+        const {result, loading, fetchMore} = useQuery(taxonomyQuery, variables)
 
         const products = computed(() => result.value?.taxonomy?.products ?? [])
 
         return {
             loading,
-            products
+            products,
+            fetchMore
         }
     },
 }
