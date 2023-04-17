@@ -2,7 +2,6 @@
 
 namespace App\Listeners\AlbertHeijn\Guzzle;
 
-use App\Commands\AlbertHeijn\Taxonomy\UpdateTaxonomyFetchedCommand;
 use App\Events\AlbertHeijn\Guzzle\FetchedProductItemsEvent;
 use App\Events\AlbertHeijn\ProductSlugSearchEvent;
 use GuzzleHttp\Client;
@@ -15,13 +14,11 @@ class FetchProductsByTaxonomySlugJob implements ShouldQueue
 {
     private Client $guzzle;
     private EventDispatcher $eventDispatcher;
-    private BusDispatcher $busDispatcher;
 
     public function __construct(Client $client, EventDispatcher $eventDispatcher, BusDispatcher $busDispatcher)
     {
         $this->guzzle = $client;
         $this->eventDispatcher = $eventDispatcher;
-        $this->busDispatcher = $busDispatcher;
     }
 
     /**
