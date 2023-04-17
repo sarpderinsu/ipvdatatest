@@ -6,7 +6,6 @@ use App\Events\AlbertHeijn\Guzzle\FetchedProductItemsEvent;
 use App\Events\AlbertHeijn\ProductSlugSearchEvent;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
-use Illuminate\Contracts\Bus\Dispatcher as BusDispatcher;
 use Illuminate\Contracts\Events\Dispatcher as EventDispatcher;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
@@ -15,7 +14,7 @@ class FetchProductsByTaxonomySlugJob implements ShouldQueue
     private Client $guzzle;
     private EventDispatcher $eventDispatcher;
 
-    public function __construct(Client $client, EventDispatcher $eventDispatcher, BusDispatcher $busDispatcher)
+    public function __construct(Client $client, EventDispatcher $eventDispatcher)
     {
         $this->guzzle = $client;
         $this->eventDispatcher = $eventDispatcher;
