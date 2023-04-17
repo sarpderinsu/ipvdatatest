@@ -1,6 +1,11 @@
 <template>
-    <div>
-        <v-table>
+    <v-container :class="loading ? 'text-center' : ''">
+        <v-progress-circular v-if="loading"
+                             color="blue"
+                             indeterminate
+                             class="mt-10"
+        ></v-progress-circular>
+        <v-table v-else>
             <thead>
             <tr>
                 <th class="text-left">
@@ -36,7 +41,9 @@
                     <v-img v-if="item.image" :src="item.image"></v-img>
                     <div v-else>n/a</div>
                 </td>
-                <td><v-btn color="blue" :href="'https://ah.nl/' + item.link">ah.nl</v-btn></td>
+                <td>
+                    <v-btn color="blue" :href="'https://ah.nl/' + item.link">ah.nl</v-btn>
+                </td>
                 <td>{{ item.brand }}</td>
                 <td>{{ item.category }}</td>
                 <td>{{ item.price.unitSize }}</td>
@@ -66,7 +73,7 @@
             </tr>
             </tbody>
         </v-table>
-    </div>
+    </v-container>
 </template>
 
 <script>
@@ -80,11 +87,12 @@ export default {
         const route = useRoute()
 
         const variables = computed(() => ({id: route.params.id}));
-        const { result } = useQuery(taxonomyQuery, variables)
+        const {result, loading} = useQuery(taxonomyQuery, variables)
 
         const products = computed(() => result.value?.taxonomy?.products ?? [])
 
         return {
+            loading,
             products
         }
     },

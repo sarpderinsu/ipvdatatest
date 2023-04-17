@@ -1,13 +1,25 @@
 <template>
-    <div>
-        <v-text-field
-            v-model="search"
-            label="Search"
-            @keydown.enter="submit"
-        ></v-text-field>
-        <v-btn block class="mt-2" @click="submit">Submit</v-btn>
+    <v-container>
+        <v-row>
+            <v-col cols="12" md="10">
+                <v-text-field
+                    v-model="search"
+                    label="Search"
+                    @keydown.enter="submit"
+                ></v-text-field>
+            </v-col>
+            <v-col cols="12" md="2">
+                <v-btn size="x-large" color="indigo" block @click="submit">Search</v-btn>
+            </v-col>
+        </v-row>
 
-        <v-table>
+        <div :class="loading ? 'text-center' : ''">
+        <v-progress-circular v-if="loading"
+                             color="blue"
+                             indeterminate
+                             class="mt-10"
+        ></v-progress-circular>
+        <v-table v-else-if="taxonomies.length > 0">
             <thead class="mt-2">
             <tr>
                 <th class="text-left">
@@ -48,7 +60,8 @@
             </tr>
             </tbody>
         </v-table>
-    </div>
+        </div>
+    </v-container>
 </template>
 
 <script>
@@ -61,7 +74,8 @@ export default {
     data: vm => ({
         search: "",
         taxonomies: [],
-        fetched: []
+        fetched: [],
+        loading: false
     }),
 
     setup() {
@@ -80,11 +94,14 @@ export default {
                 return;
             }
 
+            this.loading = true
+
             axios.get('/api/ah/search/taxonomy', {
                 params: {
                     name: this.search,
                 }
             }).then((response) => {
+                this.loading = false
                 this.taxonomies = response.data
             })
         },
