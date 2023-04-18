@@ -1,19 +1,7 @@
 <template>
-    <v-container :class="loading ? 'text-center' : ''">
-        <v-btn
-            :loading="loading"
-            variant="elevated"
-            rounder="sm"
-            block
-            :disabled="loading"
-            color="indigo"
-            @click="!fetchMore({})">Fetch More
-            <template v-slot:loader>
-                <v-progress-linear indeterminate></v-progress-linear>
-            </template>
-        </v-btn>
-        <v-progress-circular v-if="loading"
-                             color="blue"
+    <v-container :class="(loading || products.length < 1) ? 'text-center' : ''">
+        <v-progress-circular v-if="(loading || products.length < 1) "
+                             :color="loading ? 'blue' : 'red'"
                              indeterminate
                              class="mt-10"
         ></v-progress-circular>
@@ -104,9 +92,41 @@ export default {
         const products = computed(() => result.value?.taxonomy?.products ?? [])
 
         return {
+            route,
             loading,
             products,
             fetchMore
+        }
+    },
+
+    data() {
+        return {
+            timer: null,
+        };
+    },
+    methods: {
+        handleBroadcastedEvent(event) {
+            this.loading = true
+            if (this.timer) {
+                clearTimeout(this.timer);
+            }
+
+            this.timer = setTimeout(() => {
+                this.executeCallback();
+            }, 2000);
+        },
+        executeCallback() {
+            this.fetchMore({})
+        },
+    },
+    mounted() {
+        Echo.channel('taxonomies.' + this.route.params.id).listen('\\App\\Events\\AlbertHeijn\\ProductAttachedToTaxonomyEvent', (event) => {
+            this.handleBroadcastedEvent(event)
+        });
+    },
+    beforeDestroy() {
+        if (this.timer) {
+            clearTimeout(this.timer);
         }
     },
 }

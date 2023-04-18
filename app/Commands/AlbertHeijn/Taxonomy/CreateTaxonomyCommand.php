@@ -2,9 +2,7 @@
 
 namespace App\Commands\AlbertHeijn\Taxonomy;
 
-use Illuminate\Contracts\Queue\ShouldQueue;
-
-class CreateTaxonomyCommand implements ShouldQueue
+class CreateTaxonomyCommand
 {
     public int $id;
     public string $name;

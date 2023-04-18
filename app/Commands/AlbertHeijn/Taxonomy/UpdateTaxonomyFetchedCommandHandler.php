@@ -3,6 +3,7 @@
 namespace App\Commands\AlbertHeijn\Taxonomy;
 
 use App\Models\Taxonomy;
+use Exception;
 
 class UpdateTaxonomyFetchedCommandHandler
 {
@@ -13,10 +14,20 @@ class UpdateTaxonomyFetchedCommandHandler
         $this->taxonomy = $taxonomy;
     }
 
+    /**
+     * @throws Exception
+     */
     public function handle(UpdateTaxonomyFetchedCommand $command): void
     {
-        $this->taxonomy->newQuery()
+        $taxonomy = $this->taxonomy->newQuery()
             ->where('slugified_name', $command->slugifiedName)
-            ->update(['fetched' => true]);
+            ->first();
+
+        if ($taxonomy === null) {
+            throw new \Exception('Taxonomy ' . $command->slugifiedName . ' not found.');
+        }
+
+        $taxonomy->fetched = true;
+        $taxonomy->save();
     }
 }
