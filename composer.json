@@ -13,6 +13,7 @@
         "laravel/ui": "^4.2",
         "mll-lab/laravel-graphiql": "^2.0",
         "nuwave/lighthouse": "^6.6",
+        "pusher/pusher-php-server": "^7.2",
         "symfony/browser-kit": "^6.2",
         "symfony/http-client": "^6.2"
     },

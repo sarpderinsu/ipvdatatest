@@ -2,15 +2,19 @@
 
 namespace App\Commands\AlbertHeijn\ProductTaxonomy;
 
+use App\Events\AlbertHeijn\ProductAttachedToTaxonomyEvent;
 use App\Models\ProductTaxonomy;
+use Illuminate\Contracts\Events\Dispatcher;
 
 class AttachTaxonomyToProductCommandHandler
 {
     private ProductTaxonomy $productTaxonomy;
+    private Dispatcher $eventDispatcher;
 
-    public function __construct(ProductTaxonomy $productTaxonomy)
+    public function __construct(ProductTaxonomy $productTaxonomy, Dispatcher $eventDispatcher)
     {
         $this->productTaxonomy = $productTaxonomy;
+        $this->eventDispatcher = $eventDispatcher;
     }
 
     public function handle(AttachTaxonomyToProductCommand $command): void
@@ -28,5 +32,12 @@ class AttachTaxonomyToProductCommandHandler
         ]);
 
         $this->productTaxonomy->save();
+
+        $event = new ProductAttachedToTaxonomyEvent(
+            taxonomyId: $command->taxonomyId,
+            productId: $command->productId,
+        );
+
+        $this->eventDispatcher->dispatch($event);
     }
 }

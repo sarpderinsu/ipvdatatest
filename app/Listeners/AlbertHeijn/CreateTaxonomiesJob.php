@@ -5,9 +5,8 @@ namespace App\Listeners\AlbertHeijn;
 use App\Commands\AlbertHeijn\Taxonomy\CreateTaxonomyCommand;
 use App\Events\AlbertHeijn\Guzzle\FetchedTaxonomyItemsEvent;
 use Illuminate\Contracts\Bus\Dispatcher;
-use Illuminate\Contracts\Queue\ShouldQueue;
 
-class CreateTaxonomiesJob implements ShouldQueue
+class CreateTaxonomiesJob
 {
     private Dispatcher $dispatcher;
 
